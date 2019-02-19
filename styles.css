@@ -45,6 +45,14 @@ p {
     font-weight: bold;
 }
 
+@media (max-width: 600px) {
+    .navbar a {
+        display: none;
+    }
+}
+
+
+
 .main img {
     clip-path: polygon(0 0, 100% 0, 100% 75%, 0% 100%);
     width: 100%;
@@ -118,6 +126,30 @@ p {
     background-color: red;
 }
 
+.sidenav {
+    display: none;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: red;
+    overflow-x: hidden;
+    padding-top: 50px;
+    transition: 0.5s;
+}
+
+.sidenav a {
+    text-decoration: none;
+    display: block;
+}
+
+@media(max-width: 600px) {
+    .sidenav {
+        display: inline;
+    }
+}
+
 /* package styles */
 
 /* main content */
@@ -176,5 +208,16 @@ p {
     font-size: 15px;
     background-color:#2fa0ff; 
 
+}
+
+/* register */
+
+#txtFeedback {
+    color: #900;
+}
+
+.error {
+    display: inline;
+            color: #900;
 }
 
