@@ -1,6 +1,8 @@
 /**
  * Author: Adrian Taylor
  * Date: 2/19/2019
+ * Course: Web Dev 262
+ * Project: Travel Website
  * Didn't want a place so I used a earth animation. Also creating a mouseover the images.
  */
 

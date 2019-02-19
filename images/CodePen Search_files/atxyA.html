@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://s.codepen.io/CharlesAMoss/fullcpgrid/atxyA -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111">
+  <title>CodePen - clock widget</title>
+  
+  
+    <link rel="stylesheet" href="./normalize.min.css">
+
+  
+      <style>
+      html {
+  background-color: #594c4a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Chivo Regular", "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  width: 95.5078125%;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.main {
+  padding: 4px 0;
+  width: 508px;
+  height: 348px;
+  background-color: #f5f5f5;
+  margin: 100px auto;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 10px 10px rgba(47, 40, 39, 0.9), 0px 35px 20px rgba(47, 40, 39, 0.4), 0px 50px 15px rgba(69, 57, 62, 0.6);
+}
+
+.nav {
+  float: left;
+  width: 215px;
+}
+.nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.nav li {
+  padding: 30px 0 0 95px;
+  height: 84px;
+  border-bottom: 1px solid rgba(193, 193, 193, 0.5);
+  font-size: 25px;
+  color: rgba(188, 185, 184, 0.7);
+}
+.nav li:hover {
+  color: #E0744D;
+}
+.nav .al {
+  background: url("http://www.charlesamoss.com/design/images/clock_wid/alams.svg") 15% center no-repeat;
+}
+.nav .sw {
+  background: url("http://www.charlesamoss.com/design/images/clock_wid/stopwatch.svg") 15% center no-repeat;
+}
+.nav .tm {
+  background: url("http://www.charlesamoss.com/design/images/clock_wid/timer.svg") 15% center no-repeat;
+}
+.nav .st {
+  background: url("http://www.charlesamoss.com/design/images/clock_wid/site.svg") 15% center no-repeat;
+  border-bottom: 0px;
+}
+
+#clock {
+  padding: 0;
+  position: relative;
+  list-style: none;
+  margin: -50px 10px 0 0;
+  height: 234px;
+  width: 234px;
+  display: block;
+  float: right;
+  background: url("http://www.charlesamoss.com/design/images/clock_wid/clockFace.svg") 5% center no-repeat;
+  /*  -webkit-box-shadow: 0px 0px 20px rgba(47, 40, 39, 0.4);  */
+}
+
+#sec,
+#min,
+#hour {
+  position: absolute;
+  width: 24px;
+  height: 234px;
+  top: 0px;
+  left: 102px;
+}
+
+#sec {
+  background: url("http://www.charlesamoss.com/design/images/clock_wid/sec.svg");
+  z-index: 3;
+}
+
+#min {
+  background: url("http://www.charlesamoss.com/design/images/clock_wid/min.svg");
+  z-index: 2;
+}
+
+#hour {
+  background: url("http://www.charlesamoss.com/design/images/clock_wid/hour.svg");
+  z-index: 1;
+}
+
+#date {
+  float: right;
+  padding: 0 40px 40px 0;
+}
+#date #monthDay {
+  display: block;
+  font-size: 60px;
+}
+#date #year {
+  margin: 8px 0 0 55px;
+  display: block;
+  text-height: 50%;
+  font-size: 36px;
+  color: rgba(188, 185, 184, 0.7);
+}
+
+    </style>
+
+  <style>*, *::before, *::after { animation-play-state: paused !important; }</style><script>
+  window.console = window.console || function(t) {};
+  window.open = function(){ console.log("window.open is disabled."); };
+  window.print   = function(){ console.log("window.print is disabled."); };
+  window.alert   = function(){ console.log("window.alert is disabled."); };
+  window.confirm = function(){ console.log("window.confirm is disabled."); };
+  window.prompt  = function(){ console.log("window.prompt is disabled."); };
+  window.Notification = function() { console.log("HTML5 notifications are disabled."); };
+</script>
+
+  
+    <script>
+    (function() {
+      /*
+      * Capture all errors for this pen
+      **/
+      window.onerror = function(/* message, file, line */) {
+        return true;
+      };
+
+      /*
+      * Capture and kill Web Audio and Speech
+      */
+      if (typeof (AudioContext) != "undefined" || typeof (webkitAudioContext) != "undefined") {
+        AudioContext = function() {
+          return false;
+        };
+
+        webkitAudioContext = function() {
+          return false;
+        };
+      }
+
+      if (typeof (mozAudioContext) != "undefined") {
+        mozAudioContext = function() {
+          return false;
+        };
+      }
+
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis = {};
+      }
+      if ("speak" in speechSynthesis) {
+        speechSynthesis.speak = function() {
+          return false;
+        };
+      }
+
+      // Kill the browser asking for access to the video cam or audio
+      navigator.getUserMedia = function() {
+      };
+      navigator.mozGetUserMedia = function() {
+      };
+      navigator.webkitGetUserMedia = function() {
+      };
+      navigator.mediaDevices.getUserMedia = function() {
+      };
+
+      
+      /**
+      * Capture and kill animations after X number of seconds
+      **/
+      var __animationDuration = 4000;
+      var __animationsTimedOut = false;
+      var __animationRequests = [];
+      var __requestAnimationFrame = false;
+      var __cancelAnimationFrame = false;
+      var x, i;
+
+      var vendorsReqestAnimationFrame = [
+        "requestAnimationFrame",
+        "mozRequestAnimationFrame",
+        "webkitRequestAnimationFrame"
+      ];
+
+      // find the browsers requestAnimationFrame and cancelAnimationFrame
+      for (x = 0; x < vendorsReqestAnimationFrame.length; x++) {
+        if (!__requestAnimationFrame) {
+          __requestAnimationFrame = window[vendorsReqestAnimationFrame[x]
+          ];
+        }
+      }
+
+      __cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+
+      // Wrap the requestAnimationFrame so we can stop it in the future
+      function __reqFrame(callback, element) {
+        // after the timeout we no longer take requests
+        var timerID;
+        if (__animationsTimedOut) {
+          return 0;
+        } else {
+          timerID = __requestAnimationFrame(callback, element);
+          __animationRequests.push(timerID);
+
+          return timerID;
+        }
+      }
+
+      for (x = 0; x < vendorsReqestAnimationFrame.length; x++) {
+        window[vendorsReqestAnimationFrame[x]] = __reqFrame;
+      }
+
+      // Cancel the animations after expiration
+      setTimeout(function() {
+        for (i = 0; i < __animationRequests.length; i++) {
+          __cancelAnimationFrame(__animationRequests[i]);
+        }
+
+        var ss = window.document.createElement("style");
+        ss.textContent = "*, *::before, *::after { animation-play-state: paused !important; }";
+        var ref = window.document.getElementsByTagName("script")[0];
+        ref.parentNode.insertBefore(ss, ref);
+
+        __animationsTimedOut = true;
+      }, __animationDuration, "push");
+
+      /**
+      * Capture setInterval and setTimeout to kill after X number of seconds
+      **/
+      window.setInterval = (function(oldSetInterval) {
+        var registered = [];
+
+        function f(a,b) {
+          // check if the time has expired,
+          // after __animationDuration expires don't take anymore setIntervals
+          if (this.timedOut) {
+            return 0;
+          } else {
+            return registered[ registered.length ] = oldSetInterval(a,b);
+          }
+        }
+
+        f.clearAll = function() {
+          var r;
+
+          while (r = registered.pop()) {
+            clearInterval( r );
+          }
+
+          this.timedOut = true;
+        };
+
+        f.timedOut = false;
+
+        return f;
+      }(window.setInterval));
+
+      window.setTimeout = (function(oldSetTimeout) {
+        var registered = [];
+
+        // because some of our timeouts may time out afterwards
+        // we want to make sure they know the secret sauce to still use
+        // setTimeout after the time has expired, thats why we have a
+        // third param
+        function f(a, b, push) {
+          // check if the time has expired,
+          // after __animationDuration expires don't take anymore requests
+          if (this.timedOut && typeof(push) == "undefined") {
+            return 0;
+          } else {
+            // If push is there, never clear that interval
+            // so never add it to the registry
+            if (push) {
+              return oldSetTimeout(a,b);
+            } else {
+              return registered[ registered.length ] = oldSetTimeout(a,b);
+            }
+          }
+        }
+
+        f.clearAll = function() {
+          var r;
+
+          while (r = registered.pop()) {
+            clearTimeout( r );
+          }
+
+          this.timedOut = true;
+        };
+
+        f.timedOut = false;
+
+        return f;
+      }(window.setTimeout));
+
+      setTimeout(function() {
+
+        setTimeout.clearAll();
+        setInterval.clearAll();
+
+        // Stop Web Animations API
+        // Idea from Gregor: https://github.com/CodePen/CodePen-Bug-Reporting-Only/issues/173#issuecomment-203443301
+        // Status as of August 2016:
+        //  Chrome = stops animations
+        //  Safari = doesn't support anyway
+        //  Firefox = doesn't stop them, but probably will someday? Doesn't error
+        if (document.timeline && typeof document.timeline.getAnimations === "function") {
+          document.timeline.getAnimations().map(function(animation) {
+            animation.pause();
+          });
+        }
+    
+      }, __animationDuration, "push");
+
+    }());
+  </script>
+
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+</head>
+
+<body translate="no" onload="_l=&#39;t&#39;;">
+
+  <!--
+dribbble rebound of MVben's design http://dribbble.com/shots/1145537-Plug-In1
+-->
+
+
+<div class="main">
+  <div class="nav">
+    <ul>
+      <li class="al">Alarms</li>
+      <li class="sw">Stopwatch</li>
+      <li class="tm">Timer</li>
+      <li class="st">Site</li>
+    </ul>
+  </div>
+
+  <ul id="clock">
+    <li id="hour" style="transform: rotate(392.5deg);"></li>
+    <li id="min" style="transform: rotate(30deg);"></li>
+    <li id="sec" style="transform: rotate(288deg);"></li>
+  </ul>
+
+  <div id="date">
+    <span id="monthDay">Feb 19</span>
+    <span id="year">2019</span>
+  </div>
+</div>
+    <script src="./stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js.download"></script>
+
+  <script src="./jquery.min.js.download"></script>
+
+  
+
+    <script>
+      // Clock Widget's date and time
+
+const months = ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
+
+const now = new Date()
+
+$('#monthDay').append(`${months[now.getMonth()]} ${now.getDate()}`);
+
+$('#year').append(`${now.getFullYear()}`);
+
+// Clock Widget's Rotation
+$(function() {
+
+      setInterval( function() {
+      var seconds = new Date().getSeconds();
+      var sdegree = seconds * 6;
+      var srotate = "rotate(" + sdegree + "deg)";
+
+      $("#sec").css({ "transform": srotate });
+
+      }, 1000 );
+
+      setInterval( function() {
+      var hours = new Date().getHours();
+      var mins = new Date().getMinutes();
+      var hdegree = hours * 30 + (mins / 2);
+      var hrotate = "rotate(" + hdegree + "deg)";
+
+      $("#hour").css({ "transform": hrotate});
+
+      }, 1000 );
+
+      setInterval( function() {
+      var mins = new Date().getMinutes();
+      var mdegree = mins * 6;
+      var mrotate = "rotate(" + mdegree + "deg)";
+
+      $("#min").css({ "transform" : mrotate });
+
+      }, 1000 );
+
+});
+      //# sourceURL=pen.js
+    </script>
+
+
+
+    <script style="display: none !important;">
+  (function() {
+    var __animationDuration = 4000;
+
+    setTimeout(function() {
+      // If onload hasn't been called, stop all requests after 2 seconds
+      if (typeof(_l) == "undefined") {
+        if (window.stop !== undefined) window.stop();
+        else if (document.execCommand !== undefined) document.execCommand("Stop", false);
+      }
+    }, 2000, "push");
+
+    /*
+    * Capture and kill CSS animations after X number of seconds
+    */
+    function pauseAnimations() {
+      var body = document.getElementsByTagName("body")[0];
+
+      if (body.addEventListener) {
+        body.addEventListener("webkitAnimationStart", listener, false);
+        body.addEventListener("webkitAnimationIteration", listener, false);
+        body.addEventListener("animationstart", listener, false);
+        body.addEventListener("animationiteration", listener, false);
+      }
+    }
+
+    function listener(e) {
+
+      var targetEl;
+
+      if (e.type == "webkitAnimationStart" || e.type == "webkitAnimationIteration") {
+
+        targetEl = e.target;
+
+        setTimeout(function() {
+          targetEl.style.webkitAnimationPlayState = "paused";
+        }, __animationDuration, "push");
+
+      } else if (e.type == "animationstart" || e.type == "animationiteration") {
+
+        targetEl = e.target;
+
+        setTimeout(function() {
+          targetEl.style.MozAnimationPlayState = "paused";
+        }, __animationDuration, 'push');
+
+      }
+    }
+
+    pauseAnimations();
+
+    // Pause all audio elements, allow the audio/video
+    // elements to render before stopping them
+    function pauseElementTypes(type) {
+      for (var i = 0, els = document.getElementsByTagName(type); i < els.length; i++) {
+        els[i].pause();
+      }
+    }
+
+    // Wait until the elements have been created to pause them
+    setTimeout(function() {
+      pauseElementTypes("audio");
+      pauseElementTypes("video");
+    }, 100);
+
+  }());
+  </script>
+
+  
+
+  <script src="./css_reload-5619dc0905a68b2e6298901de54f73cefe4e079f65a75406858d92924b4938bf.js.download"></script>
+
+
+
+ 
+</body></html>

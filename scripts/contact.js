@@ -1,6 +1,8 @@
 /**
  * Author: Adrian Taylor
  * Date: 2/19/2019
+ * Course: Web Dev 262
+ * Project: Travel Website
  * 
  */
 

@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://s.codepen.io/jesgs/fullcpgrid/adMyXx -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico">
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111">
+  <title>CodePen - Moon Phase</title>
+  
+  
+    <link rel="stylesheet" href="./reset.min.css">
+
+  
+      <style>
+      /*
+    Document   : screen
+    Created on : Jan 30, 2014, 1:01:26 PM
+    Author     : Jess Green <hello@jessgreen.io>
+*/
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,700,200italic,700italic");
+body {
+  font: 1em/1.5 'Source Sans Pro', sans-serif;
+  color: #272822;
+}
+
+canvas {
+  border: 1px solid #000;
+  background-color: #999;
+}
+
+strong {
+  font-weight: 700;
+}
+
+em, cite {
+  font-style: italic;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a,
+a:link {
+  text-decoration: none;
+  color: #99C62A;
+}
+
+a:visited {
+  color: #66D9EF;
+}
+
+a:hover {
+  color: #F92672;
+}
+
+a:active {
+  color: #FD971F;
+}
+
+.wrapper {
+  width: 960px;
+  margin: 0 auto;
+}
+
+button.btn,
+input.btn {
+  outline: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+a.btn {
+  color: #272822;
+  font-size: small;
+}
+
+.btn.btn-narrow {
+  padding: 2px 15px;
+}
+
+.btn {
+  display: inline-block;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.75);
+  background-color: #66D9EF;
+  border-radius: 3px;
+  padding: 5px 15px;
+  border: 1px solid #34A7BD;
+}
+
+.btn:hover {
+  box-shadow: inset -1px -1px 0 rgba(255, 255, 255, 0.75);
+}
+
+/*------------------------------------------------------------------------------
+Headers
+------------------------------------------------------------------------------*/
+.h {
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  display: block;
+}
+.h1 {
+  font-size: 2rem;
+}
+.h2 {
+  font-size: 1.5rem;
+}
+.h3 {
+  font-size: 1.25rem;
+}
+.h4 {
+  font-size: 1rem;
+}
+.h5 {
+  font-size: 0.875rem;
+}
+.h6 {
+  font-size: 0.75rem;
+}
+
+/*------------------------------------------------------------------------------
+Horizontal list
+------------------------------------------------------------------------------*/
+.hlist {
+  list-style: none;
+  clear: both;
+  float: none;
+  margin: 0;
+  padding: 0;
+}
+.hlist:after {
+  display: block;
+  height: 1px;
+  float: none;
+  clear: both;
+  content: ".";
+  visibility: hidden;
+}
+.hlist > li {
+  float: left;
+  margin-right: 20px;
+}
+.hlist > li:last-of-type {
+  margin-right: 0;
+}
+
+/*------------------------------------------------------------------------------
+Columns/Rows
+------------------------------------------------------------------------------*/
+.row {
+  clear: both;
+  float: none;
+  display: block;
+  margin-bottom: 2.5rem;
+}
+.row:after {
+  display: block;
+  height: 1px;
+  float: none;
+  clear: both;
+  content: ".";
+  visibility: hidden;
+}
+
+.column {
+  float: left;
+  margin-right: 1.25rem;
+}
+
+.column-last {
+  margin-right: 0;
+}
+
+.small-input {
+  width: 54px;
+}
+
+.moondata {
+  padding-top: 2.5rem;
+}
+
+.data-table {
+  display: table;
+}
+.data-table .label {
+  width: 9.375rem;
+  margin-right: 1.25rem;
+  display: table-cell;
+}
+.data-table .label:after {
+  content: ":";
+}
+.data-table .value {
+  display: table-cell;
+}
+
+.calendar {
+  width: 98%;
+  margin-bottom: 2.5rem;
+}
+
+.calendar th {
+  font-weight: 700;
+  width: 14%;
+}
+
+.calendar td {
+  border: 1px solid;
+  padding: 5px;
+  box-sizing: border-box;
+  text-align: right;
+  height: 135px;
+}
+
+.calendar .moonphase {
+  font-weight: 700;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+    </style>
+
+  <style>*, *::before, *::after { animation-play-state: paused !important; }</style><script>
+  window.console = window.console || function(t) {};
+  window.open = function(){ console.log("window.open is disabled."); };
+  window.print   = function(){ console.log("window.print is disabled."); };
+  window.alert   = function(){ console.log("window.alert is disabled."); };
+  window.confirm = function(){ console.log("window.confirm is disabled."); };
+  window.prompt  = function(){ console.log("window.prompt is disabled."); };
+  window.Notification = function() { console.log("HTML5 notifications are disabled."); };
+</script>
+
+  
+    <script>
+    (function() {
+      /*
+      * Capture all errors for this pen
+      **/
+      window.onerror = function(/* message, file, line */) {
+        return true;
+      };
+
+      /*
+      * Capture and kill Web Audio and Speech
+      */
+      if (typeof (AudioContext) != "undefined" || typeof (webkitAudioContext) != "undefined") {
+        AudioContext = function() {
+          return false;
+        };
+
+        webkitAudioContext = function() {
+          return false;
+        };
+      }
+
+      if (typeof (mozAudioContext) != "undefined") {
+        mozAudioContext = function() {
+          return false;
+        };
+      }
+
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis = {};
+      }
+      if ("speak" in speechSynthesis) {
+        speechSynthesis.speak = function() {
+          return false;
+        };
+      }
+
+      // Kill the browser asking for access to the video cam or audio
+      navigator.getUserMedia = function() {
+      };
+      navigator.mozGetUserMedia = function() {
+      };
+      navigator.webkitGetUserMedia = function() {
+      };
+      navigator.mediaDevices.getUserMedia = function() {
+      };
+
+      
+      /**
+      * Capture and kill animations after X number of seconds
+      **/
+      var __animationDuration = 4000;
+      var __animationsTimedOut = false;
+      var __animationRequests = [];
+      var __requestAnimationFrame = false;
+      var __cancelAnimationFrame = false;
+      var x, i;
+
+      var vendorsReqestAnimationFrame = [
+        "requestAnimationFrame",
+        "mozRequestAnimationFrame",
+        "webkitRequestAnimationFrame"
+      ];
+
+      // find the browsers requestAnimationFrame and cancelAnimationFrame
+      for (x = 0; x < vendorsReqestAnimationFrame.length; x++) {
+        if (!__requestAnimationFrame) {
+          __requestAnimationFrame = window[vendorsReqestAnimationFrame[x]
+          ];
+        }
+      }
+
+      __cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+
+      // Wrap the requestAnimationFrame so we can stop it in the future
+      function __reqFrame(callback, element) {
+        // after the timeout we no longer take requests
+        var timerID;
+        if (__animationsTimedOut) {
+          return 0;
+        } else {
+          timerID = __requestAnimationFrame(callback, element);
+          __animationRequests.push(timerID);
+
+          return timerID;
+        }
+      }
+
+      for (x = 0; x < vendorsReqestAnimationFrame.length; x++) {
+        window[vendorsReqestAnimationFrame[x]] = __reqFrame;
+      }
+
+      // Cancel the animations after expiration
+      setTimeout(function() {
+        for (i = 0; i < __animationRequests.length; i++) {
+          __cancelAnimationFrame(__animationRequests[i]);
+        }
+
+        var ss = window.document.createElement("style");
+        ss.textContent = "*, *::before, *::after { animation-play-state: paused !important; }";
+        var ref = window.document.getElementsByTagName("script")[0];
+        ref.parentNode.insertBefore(ss, ref);
+
+        __animationsTimedOut = true;
+      }, __animationDuration, "push");
+
+      /**
+      * Capture setInterval and setTimeout to kill after X number of seconds
+      **/
+      window.setInterval = (function(oldSetInterval) {
+        var registered = [];
+
+        function f(a,b) {
+          // check if the time has expired,
+          // after __animationDuration expires don't take anymore setIntervals
+          if (this.timedOut) {
+            return 0;
+          } else {
+            return registered[ registered.length ] = oldSetInterval(a,b);
+          }
+        }
+
+        f.clearAll = function() {
+          var r;
+
+          while (r = registered.pop()) {
+            clearInterval( r );
+          }
+
+          this.timedOut = true;
+        };
+
+        f.timedOut = false;
+
+        return f;
+      }(window.setInterval));
+
+      window.setTimeout = (function(oldSetTimeout) {
+        var registered = [];
+
+        // because some of our timeouts may time out afterwards
+        // we want to make sure they know the secret sauce to still use
+        // setTimeout after the time has expired, thats why we have a
+        // third param
+        function f(a, b, push) {
+          // check if the time has expired,
+          // after __animationDuration expires don't take anymore requests
+          if (this.timedOut && typeof(push) == "undefined") {
+            return 0;
+          } else {
+            // If push is there, never clear that interval
+            // so never add it to the registry
+            if (push) {
+              return oldSetTimeout(a,b);
+            } else {
+              return registered[ registered.length ] = oldSetTimeout(a,b);
+            }
+          }
+        }
+
+        f.clearAll = function() {
+          var r;
+
+          while (r = registered.pop()) {
+            clearTimeout( r );
+          }
+
+          this.timedOut = true;
+        };
+
+        f.timedOut = false;
+
+        return f;
+      }(window.setTimeout));
+
+      setTimeout(function() {
+
+        setTimeout.clearAll();
+        setInterval.clearAll();
+
+        // Stop Web Animations API
+        // Idea from Gregor: https://github.com/CodePen/CodePen-Bug-Reporting-Only/issues/173#issuecomment-203443301
+        // Status as of August 2016:
+        //  Chrome = stops animations
+        //  Safari = doesn't support anyway
+        //  Firefox = doesn't stop them, but probably will someday? Doesn't error
+        if (document.timeline && typeof document.timeline.getAnimations === "function") {
+          document.timeline.getAnimations().map(function(animation) {
+            animation.pause();
+          });
+        }
+    
+      }, __animationDuration, "push");
+
+    }());
+  </script>
+
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+<link type="image/x-icon" rel="shortcut icon" href="data:image/png;base64,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" id="favicon"></head>
+
+<body translate="no" onload="_l=&#39;t&#39;;">
+
+  <div class="wrapper">
+  <header class="row">
+    <h1 class="h h1">MoonPhase App</h1>
+  </header>
+    <div class="row">
+        <ul class="data-table h3">
+             <li>
+                <strong class="label">Current Date</strong><span class="value js-current-date-value">2/19/2019 @ 1:05:45 PM</span>
+            </li>
+
+            <li>
+                <strong class="label">Selected Date</strong><span class="js-date-value value">2/20/2019 @ 1:05:45 PM</span>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+            <ul class="hlist">
+                <li>
+                    <a href="https://s.codepen.io/jesgs/fullcpgrid/adMyXx#" data-name="prev" class="js-date-nav btn">« Back One Day</a>
+                </li>
+                <li>
+                    <a href="https://s.codepen.io/jesgs/fullcpgrid/adMyXx#" data-name="current" class="js-date-nav btn">Today</a>
+                </li>
+                <li>
+                    <a href="https://s.codepen.io/jesgs/fullcpgrid/adMyXx#" data-name="next" class="js-date-nav btn">Forward One Day »</a>
+                </li>
+            </ul>
+    </div>
+
+    <div class="row">
+        <canvas class="column" id="currentphase" height="288" width="288">
+            You need a browser that supports HTML5 and JavaScript enabled to see this.
+        </canvas>
+        <div class="column-last">
+            <h3 class="h h3">Current Phase Data</h3>
+            <ul class="data-table js-moon-data">
+                <li><strong class="label">Current Phase</strong> <span data-name="currentPhase" class="value"></span></li>
+                <li><strong class="label">Julian Date</strong> <span data-name="julianDate" class="value">2458534.3373</span></li>
+                <li><strong class="label">Moon's Age</strong> <span data-name="synodicAge" class="value">15d 0h</span></li>
+                <li><strong class="label">Phase Angle</strong> <span data-name="phaseAngle" class="value">183° 5′ 0″ </span></li>
+                <li><strong class="label">Percent Illuminated</strong> <span data-name="illumination" class="value">100%</span></li>
+                <li><strong class="label">Distance</strong> <span data-name="distance" class="value">221995 mi</span></li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- .wrapper -->
+    <script src="./stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js.download"></script>
+
+  <script src="./ocanvas.min.js.download"></script>
+<script src="./jquery.min.js.download"></script>
+
+  
+
+    <script>
+      /**
+ * functions.js
+ */
+function toDegrees(number) {
+
+    var deg = parseInt(number),
+        min = Math.floor((number - deg) * 60),
+        sec = Math.round((min - parseInt(min)) * 60),
+        degString = deg.toString() + "&deg; " + min.toString() + "&prime; " + sec.toString() + "&Prime; ";
+
+    return degString;
+}
+
+function toDaysHours(number) {
+
+    var day = parseInt(number),
+        hour = ((number - day) * 24).toFixed(0),
+        dayString = day.toString() + "d " + hour + "h";
+
+    return dayString;
+}
+
+/* end functions.js */
+
+/* moonfx.js */
+MoonFx = (function(){
+
+    var MoonFx = function() {
+
+        /**
+         * Radius of Earth in miles
+         */
+        this.EARTH_RADIUS_MI = 3959;
+
+        /**
+         * Length of one day in seconds
+         */
+        this.ONE_DAY = 86400;
+
+        /**
+         * Moon's synodic period
+         */
+        this.SYNODIC_PERIOD = 29.530589;
+
+
+        /**
+         * Value of PI in radians
+         */
+        this.PI_RADIANS = Math.PI * 2;
+
+
+        /**
+         * Current date
+         *
+         * @type long
+         */
+        this.moonDate = new Date().getTime();
+
+
+        this.MOON_DATA = {
+            "synodicAge" : toDaysHours(this.getSynodicPhase()),
+            "julianDate" : this.getJulianDate().toFixed(4),
+            "phaseAngle" : toDegrees(this.getPhaseAngle()),
+            "distance"   : (this.getDistanceInEarthRadii() * this.EARTH_RADIUS_MI).toFixed(0).toString() + " mi",
+            "illumination" : (this.getIlluminatedRatio() * 100).toFixed(0).toString() + "%"
+        };
+
+        return this;
+    };
+
+    /**
+     * Set the current date
+     *
+     * @param {long} date
+     * @returns {undefined}
+     */
+    MoonFx.prototype.setDate = function(date) {
+        this.moonDate = date;
+    };
+
+
+    /**
+     * Get current date
+     *
+     * @returns {long}
+     */
+    MoonFx.prototype.getDate = function() {
+        return this.moonDate;
+    };
+
+
+    /**
+     * Get current Julian Date
+     *
+     * @returns {Number}
+     */
+    MoonFx.prototype.getJulianDate = function() {
+        var time = this.getDate();
+
+        return ((time / 1000) / this.ONE_DAY) + 2440587.5;
+    };
+
+
+    /**
+     * Get current synodic phase (Moon's age)
+     *
+     * @returns {Number}
+     */
+    MoonFx.prototype.getSynodicPhase = function() {
+        var julianDate   = this.getJulianDate(),
+            synodicPhase = this._normalize((julianDate - 2451550.1) / this.SYNODIC_PERIOD)
+                            * this.SYNODIC_PERIOD;
+
+        return synodicPhase;
+    };
+
+
+    /**
+     * Get current distance to the moon in Earth Radii
+     *
+     * @returns {Number}
+     */
+    MoonFx.prototype.getDistanceInEarthRadii = function() {
+        var distanceInRadians = this._normalize((this.getJulianDate() - 2451562.2) / 27.55454988) * this.PI_RADIANS,
+            synodicPhaseInRadians = this.getSynodicPhase() * this.PI_RADIANS,
+
+            distance = 60.4 - 3.3 * Math.cos(distanceInRadians) - 0.6
+                    * Math.cos(2 * synodicPhaseInRadians - distanceInRadians) - 0.5
+                    * Math.cos(2 * synodicPhaseInRadians);
+
+        return distance;
+    };
+
+
+    /**
+     * Get Moon's current ecliptic latitude
+     * @returns {Number}
+     */
+    MoonFx.prototype.getEclipticLatitude = function() {
+        var value = this._normalize((this.getJulianDate() - 2451565.2) / 27.212220817),
+            eclipticLatitude = 5.1 * Math.sin(value * this.PI_RADIANS);
+
+        return eclipticLatitude;
+    };
+
+
+    /**
+     * Get Moon's current ecliptic longitude
+     * @returns {Number|_L1.MoonFx.MoonFx.prototype.getEclipticLongitude.value}
+     */
+    MoonFx.prototype.getEclipticLongitude = function() {
+        var synodicPhaseInRadians = this.getSynodicPhase() * this.PI_RADIANS,
+            distanceInRadians     = this._normalize((this.getJulianDate() - 245162.2) / 27.55454988) * this.PI_RADIANS,
+            value                 = this._normalize((this.getJulianDate() - 2451555.8) / 27.321582241),
+
+            eclipticLongitude = 360 * value + 6.3 + Math.sin(distanceInRadians) + 1.3
+                               * Math.sin(2 * synodicPhaseInRadians - distanceInRadians) + 1.3
+                               * 0.7 * Math.sin(2 * synodicPhaseInRadians);
+
+        return eclipticLongitude;
+    };
+
+
+    /**
+     * Get the current phase angle
+     *
+     * @param {Number} synodicAge
+     * @returns {Number}
+     */
+    MoonFx.prototype.getPhaseAngle = function(synodicAge) {
+        synodicAge = synodicAge ? synodicAge : this.getSynodicPhase();
+
+        phaseAngle = synodicAge * (360 / this.SYNODIC_PERIOD);
+
+        if (phaseAngle > 360) {
+            phaseAngle = phaseAngle - 360;
+        }
+
+        return phaseAngle;
+
+    };
+
+
+
+    /**
+     * Get moon illuminated ratio (in decimals)
+     * @param {Number} synodicAge
+     * @returns {Number}
+     */
+    MoonFx.prototype.getIlluminatedRatio = function(synodicAge) {
+        synodicAge = synodicAge ? synodicAge : this.getSynodicPhase();
+
+        var phaseAngle = this.getPhaseAngle(synodicAge),
+            ratioOfIllumination = 0.5 * (1 - Math.cos(this._deg2rad(phaseAngle)));
+
+        return ratioOfIllumination;
+    };
+
+
+    /**
+     * Normalize a number
+     *
+     * @param {Number} value
+     * @returns {Number}
+     */
+    MoonFx.prototype._normalize = function(value) {
+        value = value - parseInt(value);
+
+        if (value < 0){
+            value = value + 1;
+        }
+
+        return value;
+    };
+
+
+    /**
+     * Find a number's sign
+     *
+     * @param {Number} $x
+     * @returns {int}
+     */
+    MoonFx.prototype._signum = function(x) {
+        return parseInt((Math.abs(x) - x) ? -1 : x > 0);
+    };
+
+
+    /**
+     * Convert degrees to radians
+     *
+     * @param {Number} x
+     * @returns {Number|@exp;Math@pro;PI}
+     */
+    MoonFx.prototype._deg2rad = function (x) {
+        return x * (Math.PI / 180);
+    };
+
+    return MoonFx;
+}());
+/* end moonfx.js */
+
+/* global.js */
+(function($){
+
+    // DOM ready
+    $(function(){
+        MoonPhase.DrawMoon.init();
+        MoonPhase.Navigation.init();
+        MoonPhase.DrawFavicon.init();
+        MoonPhase.LoadData.init();
+    });
+
+    var MoonPhase = MoonPhase || {};
+
+    MoonPhase.moonFx = new MoonFx();
+    MoonPhase.currentTime = new Date().getTime();
+
+    MoonPhase.DrawMoon = {
+        canvas  : null,
+        context : null,
+        moonFx  : null,
+
+        init: function() {
+            this.canvas  = document.getElementById('currentphase');
+            this.context = this.canvas.getContext('2d');
+            this.moonFx  = MoonPhase.moonFx;
+
+            this.drawMoon();
+        },
+
+        drawMoon : function() {
+            var ctx = this.context,
+                height = this.canvas.getAttribute('height'),
+                width  = this.canvas.getAttribute('width'),
+                cx     = width / 2,
+                cy     = height / 2,
+                illuminationRatio = this.moonFx.getIlluminatedRatio(),
+                phaseAngle = this.moonFx.getPhaseAngle();
+
+            ctx.beginPath();
+            ctx.arc(cx, cy, (height / 2) - 2, 0, 360, false);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            ctx.closePath();
+
+            // draw limb
+            var points = [[], []];
+
+            for (var a = 0; a < 180; a++) {
+                var angle = this.moonFx._deg2rad(a - 90),
+                    x1 = Math.ceil( Math.cos( angle ) * cx ),
+                    y1 = Math.ceil( Math.sin( angle ) * cy ),
+                    moonWidth = x1 * 2,
+                    x2 = Math.floor(moonWidth * illuminationRatio);
+
+                if ( phaseAngle < 180 ) {
+                    x1 = cx - x1;
+                    x2 = x1 + (moonWidth - x2);
+                } else { // waning
+                    x1 = cx + x1;
+                    x2 = x1 - (moonWidth - x2);
+                }
+
+                var y2 = cy + y1,
+                    p1 = [x1, y2],
+                    p2 = [x2, y2];
+
+                points[0].push(p1);
+                points[1].push(p2);
+            }
+
+            var newPoints = points[0].concat(points[1].reverse());
+            ctx.beginPath();
+            ctx.fillStyle = '#000';
+            for (var n in newPoints) {
+                var p = newPoints[n];
+                if (n === 0) {
+                    ctx.moveTo(p[0], p[1]);
+                } else {
+                    ctx.lineTo(p[0], p[1]);
+                }
+            }
+            ctx.fill();
+            ctx.closePath();
+        },
+
+        changeDate : function(date) {
+            this.moonFx.setDate(date);
+            this.drawMoon();
+        }
+    };
+
+    MoonPhase.LoadData = {
+        init : function() {
+            var moonData = MoonPhase.moonFx.MOON_DATA;
+
+            $('.js-moon-data .value').each(function(){
+                var name = $(this).data('name');
+                $(this).html(moonData[name]);
+            });
+        }
+    };
+
+    MoonPhase.Navigation = {
+        init : function() {
+            $('.js-current-date-value').text(function(){
+                var dateObj = new Date();
+
+                return dateObj.toLocaleDateString() + " @ " + dateObj.toLocaleTimeString();
+            });
+
+                      
+            $('.js-date-nav').on('click', function(e){
+                e.preventDefault();
+
+                var action = $(this).data('name'),
+                    dateObj = new Date();
+
+                if (action === 'prev') {
+                    MoonPhase.currentTime = MoonPhase.currentTime - 86400000;
+                } else if (action === 'next') {
+                    MoonPhase.currentTime = MoonPhase.currentTime + 86400000;
+                } else {
+                    MoonPhase.currentTime = new Date().getTime();
+                }
+
+                dateObj.setTime(MoonPhase.currentTime);
+
+                MoonPhase.moonFx.setDate(MoonPhase.currentTime);
+                $('.js-date-value').text(dateObj.toLocaleDateString() + " @ " + dateObj.toLocaleTimeString());
+
+                MoonPhase.DrawMoon.drawMoon();
+                MoonPhase.DrawFavicon.init();
+                MoonPhase.LoadData.init();
+            }).trigger('click');
+        }
+    };
+
+    MoonPhase.DrawFavicon = {
+        init : function() {
+            $('#favicon').remove();
+
+            var link = document.createElement('link'),
+                canvas = document.getElementById('currentphase');
+
+            link.type = 'image/x-icon';
+            link.rel = 'shortcut icon';
+            link.href = canvas.toDataURL("image/x-icon");
+            link.id = "favicon";
+            document.getElementsByTagName('head')[0].appendChild(link);
+        }
+    };
+
+})(jQuery);
+/* end global.js */
+      //# sourceURL=pen.js
+    </script>
+
+
+
+    <script style="display: none !important;">
+  (function() {
+    var __animationDuration = 4000;
+
+    setTimeout(function() {
+      // If onload hasn't been called, stop all requests after 2 seconds
+      if (typeof(_l) == "undefined") {
+        if (window.stop !== undefined) window.stop();
+        else if (document.execCommand !== undefined) document.execCommand("Stop", false);
+      }
+    }, 2000, "push");
+
+    /*
+    * Capture and kill CSS animations after X number of seconds
+    */
+    function pauseAnimations() {
+      var body = document.getElementsByTagName("body")[0];
+
+      if (body.addEventListener) {
+        body.addEventListener("webkitAnimationStart", listener, false);
+        body.addEventListener("webkitAnimationIteration", listener, false);
+        body.addEventListener("animationstart", listener, false);
+        body.addEventListener("animationiteration", listener, false);
+      }
+    }
+
+    function listener(e) {
+
+      var targetEl;
+
+      if (e.type == "webkitAnimationStart" || e.type == "webkitAnimationIteration") {
+
+        targetEl = e.target;
+
+        setTimeout(function() {
+          targetEl.style.webkitAnimationPlayState = "paused";
+        }, __animationDuration, "push");
+
+      } else if (e.type == "animationstart" || e.type == "animationiteration") {
+
+        targetEl = e.target;
+
+        setTimeout(function() {
+          targetEl.style.MozAnimationPlayState = "paused";
+        }, __animationDuration, 'push');
+
+      }
+    }
+
+    pauseAnimations();
+
+    // Pause all audio elements, allow the audio/video
+    // elements to render before stopping them
+    function pauseElementTypes(type) {
+      for (var i = 0, els = document.getElementsByTagName(type); i < els.length; i++) {
+        els[i].pause();
+      }
+    }
+
+    // Wait until the elements have been created to pause them
+    setTimeout(function() {
+      pauseElementTypes("audio");
+      pauseElementTypes("video");
+    }, 100);
+
+  }());
+  </script>
+
+  
+
+  <script src="./css_reload-5619dc0905a68b2e6298901de54f73cefe4e079f65a75406858d92924b4938bf.js.download"></script>
+
+
+
+ 
+</body></html>
