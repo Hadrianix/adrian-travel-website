@@ -57,6 +57,10 @@ function getDate() {
 
 getDate();
 
+
+// incomplete sidenav for mobile
+
+
 function myFunction() {
     var x = document.getElementById("navbar");
     if (x.className === "topnav") {

@@ -6,7 +6,7 @@
  * 
  */
 
-// Form Submission
+// half finished Form Submission
 
 var formReference = document.querySelector("#myForm");
 var txtFirstName = document.querySelector("#firstName");
