@@ -138,6 +138,10 @@ p {
     max-width: 1000px;
 }
 
+.package img {
+    max-width: 1000px;
+}
+
 
 
 .package .container {
