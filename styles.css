@@ -4,6 +4,13 @@
 
     
 }
+
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+}
 /* general styles */
 
 h1 {
@@ -87,6 +94,16 @@ p {
     top: 40%;
 }
 
+.main .footer {
+    clear: both;
+    position: absolute;
+    margin-top: 40px;
+    width: 100%;
+    bottom: 0;
+    height: 70px;
+    background-color: red;
+}
+
 /* package styles */
 
 /* main content */
@@ -94,6 +111,7 @@ p {
 
 
 .package #earth {
+    margin-top: 25px;
     position: absolute;
     left: 0;
     height: 100px;
@@ -105,7 +123,20 @@ p {
 
 
 .package .container {
+    display: flex;
     padding: 50px;
     max-width: 1000px;
     margin: 0 auto;
 }
+
+.package .navbar {
+    background-color :#2fa0ff;
+}
+
+.package h1 {
+    text-align: center;
+    padding: 80px;
+    padding-top: 50px;
+    color: #2fa0ff;
+}
+
