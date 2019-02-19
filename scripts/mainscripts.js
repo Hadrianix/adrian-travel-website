@@ -4,6 +4,7 @@
  * Created a slideshow of places and events customers can go.
  */
 
+// Image Slider
 
 var sliderStuff = document.getElementById('slides');
 
@@ -37,6 +38,8 @@ function prevImage() {
 }
 
 var slideCounter = setInterval(nextImage, 30000);
+
+// Date stuff
 
 var d = new Date();
 var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
