@@ -1,0 +1,80 @@
+* {
+    box-sizing:border-box;
+    margin: 0 auto;
+    
+}
+/* general styles */
+
+h1 {
+    font-family: 'Fjalla One', sans-serif;
+}
+
+p {
+    font-family: 'Raleway', sans-serif;
+}
+
+/* main styles */
+
+.navbar {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    background-color: red;
+}
+
+img {
+    width: 1000px;
+    height: auto;
+}
+
+.hero {
+    width: 1000px;
+    height: 500px;
+    margin: 0 auto;
+    position: relative;
+}
+/* .hero {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-image: url(a.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+} */
+
+img {
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+}
+/* .image {
+    max-width: 100%;
+    height: auto;
+} */
+
+button {
+    border: none;
+    color:white;
+    background: brown;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100px;
+
+}
+
+/* .hero {
+    width: 100%;
+    height: 500px;
+    margin: 0 auto;
+    position: relative;
+    background-size: cover;
+} */
