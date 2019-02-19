@@ -14,11 +14,11 @@ p {
     font-family: 'Raleway', sans-serif;
 }
 
-/* main styles */
+/* main page styles */
 
 .navbar {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;;
     align-items: center;
     width: 100%;
     height: 50px;
@@ -31,13 +31,13 @@ p {
     color: white;
 }
 
-img {
+.main img {
     clip-path: polygon(0 0, 100% 0, 100% 75%, 0% 100%);
     width: 100%;
     height: auto;
 }
 
-.hero {
+.main .hero {
 
     width: 100%;
     height: auto;
@@ -46,14 +46,14 @@ img {
 }
 
 
-button {
+.main button {
     top: 45%;
     border: none;
     color:white;
     background: red;
 }
 
-.buttons {
+.main .buttons {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -63,16 +63,49 @@ button {
 
 }
 
-.next {
+.main .next {
 
     cursor: pointer;
 
 
 }
 
-.prev {
+.main .prev {
 
     cursor: pointer;
 
 
+}
+
+.main .text {
+    width: 100%;
+    justify-content: center;    
+    color: red;
+    text-align: center;  
+    display: flex;
+    position: absolute;
+    top: 40%;
+}
+
+/* package styles */
+
+/* main content */
+
+
+
+.package #earth {
+    position: absolute;
+    left: 0;
+    height: 100px;
+    background-color: lightblue;
+
+
+}
+
+
+
+.package .container {
+    padding: 50px;
+    max-width: 1000px;
+    margin: 0 auto;
 }

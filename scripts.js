@@ -30,3 +30,28 @@ function prevImage() {
 }
 
 var slideCounter = setInterval(nextImage, 30000);
+
+var earth = document.getElementById('earth');
+var moveForward = true;
+var earthTimer = setInterval(earthMove, 5);
+
+function earthMove() {
+    if (earth.offsetLeft >= document.body.offsetWidth - earth.offsetWidth) {
+        moveForward = false;
+    }
+
+    if (earth.offsetLeft <= 0) {
+        moveForward = true;
+    }
+
+    if (moveForward) {
+
+        earth.style.transform = "scaleX(1)";
+        earth.style.left = earth.offsetLeft + 1 + "px";
+    } else {
+
+        earth.style.transform = "scaleX(-1)";
+
+        earth.style.left = earth.offsetLeft - 1 + "px";
+    }
+}
