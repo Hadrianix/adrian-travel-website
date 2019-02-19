@@ -1,3 +1,9 @@
+/**
+ * Author: Adrian Taylor
+ * Date: 2/19/2019
+ * Didn't want a place so I used a earth animation. Also creating a mouseover the images.
+ */
+
 var earth = document.getElementById('earth');
 var moveForward = true;
 var earthTimer = setInterval(earthMove, 5);
